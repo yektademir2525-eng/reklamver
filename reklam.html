@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reklam Ver - Yek Soft</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f0f2f5; color: #333; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background-color: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); max-width: 600px; width: 100%; }
+        h1 { text-align: center; color: #1a237e; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        input[type="text"], textarea { width: calc(100% - 24px); padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color 0.3s; }
+        input[type="text"]:focus, textarea:focus { border-color: #1a237e; outline: none; }
+        .submit-btn { width: 100%; padding: 15px; border: none; border-radius: 8px; background-color: #1a237e; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; transition: background-color 0.3s; }
+        .submit-btn:hover { background-color: #0d124b; }
+        .security-note, .legal-note { background-color: #fef0e7; border-left: 5px solid #ff7043; padding: 15px; border-radius: 8px; margin-bottom: 30px; font-size: 14px; line-height: 1.6; }
+        .legal-note { background-color: #fff3e0; border-color: #ff9800; }
+        .free-ad-text { text-align: center; margin-top: 30px; color: #00796b; font-weight: bold; font-size: 1.1em; }
+        .captcha-container { text-align: center; margin-bottom: 20px; }
+        #captchaImage { border: 1px solid #ddd; border-radius: 4px; }
+        .message-box { padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+        .message-box.success { background-color: #e8f5e9; color: #2e7d32; }
+        .message-box.error { background-color: #ffebee; color: #c62828; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Reklam Ver</h1>
+        
+        <div class="security-note">
+            <p><strong>Önemli:</strong> Lütfen sadece uygun içerikler gönderin. Yapay zeka sistemimiz, şiddet, nefret söylemi ve benzeri uygunsuz içerikleri tespit ederek otomatik olarak engelleyecektir. Tüm reklamlar, yayınlanmadan önce manuel olarak incelenir.</p>
+        </div>
+
+        <div class="legal-note">
+            <p><strong>YASAL UYARI:</strong> Yasadışı veya ahlak dışı içeriklerin reklamı yasaktır. Bu tür içerikleri gönderenler hakkında yasal işlem başlatılabilir ve bu suçlar için **2 yıldan 4 yıla kadar hapis cezası** uygulanabilir.</p>
+        </div>
+        
+        <div id="messageBox"></div>
+
+        <form action="gonder.php" method="POST" id="adForm">
+            <div class="form-group">
+                <label for="adUrl">GIF Bağlantısı</label>
+                <input type="text" id="adUrl" name="adUrl" placeholder="https://example.com/reklam.gif" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="adTitle">Reklam Başlığı</label>
+                <input type="text" id="adTitle" name="adTitle" placeholder="Harika Ürünlerimizle Tanışın!" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="adDescription">Reklam Açıklaması</label>
+                <textarea id="adDescription" name="adDescription" rows="4" placeholder="Ürününüzü en iyi şekilde anlatan bir metin yazın." required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="targetUrl">Hedef Bağlantı (URL)</label>
+                <input type="text" id="targetUrl" name="targetUrl" placeholder="https://siteniz.com" required>
+            </div>
+
+            <div class="form-group" style="display: none;">
+                <label for="nickname">Bu alanı boş bırakın</label>
+                <input type="text" id="nickname" name="nickname">
+            </div>
+            
+            <div class="form-group captcha-container">
+                <label for="captcha">Doğrulama Kodu</label>
+                <img id="captchaImage" src="captcha.php" alt="Doğrulama Kodu">
+                <br><br>
+                <input type="text" id="captcha" name="captcha" required placeholder="Yukarıdaki kodu girin">
+            </div>
+
+            <button type="submit" class="submit-btn">Reklamı Gönder</button>
+        </form>
+
+        <p class="free-ad-text">
+            Tanıdığımız veya **Yek Soft**'ta çalışıyorsanız ÜCRETSİZ reklam verebilirsiniz.
+        </p>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get('status');
+        const messageBox = document.getElementById('messageBox');
+
+        if (status) {
+            if (status === 'success') {
+                messageBox.className = 'message-box success';
+                messageBox.innerHTML = '<p>Reklam başvurunuz başarıyla gönderildi. En kısa sürede incelenecektir.</p>';
+            } else if (status === 'error') {
+                const errorMessage = urlParams.get('message') || 'Bir hata oluştu. Lütfen tekrar deneyin.';
+                messageBox.className = 'message-box error';
+                messageBox.innerHTML = '<p>' + decodeURIComponent(errorMessage) + '</p>';
+            }
+        }
+    </script>
+</body>
+</html>
