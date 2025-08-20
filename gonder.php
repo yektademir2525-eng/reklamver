@@ -3,7 +3,7 @@ session_start();
 
 // HTTP_REFERER (Yönlendiren) kontrolü
 // Kodu çalmaya çalışanların doğrudan form göndermesini engeller.
-$allowed_domain = 'https://www.sitenizinadi.com'; // Buraya kendi sitenizin adresini yazın
+$allowed_domain = 'https://yektademir2525-eng.github.io/reklamver/reklam.html'; 
 if (!isset($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], $allowed_domain) !== 0) {
     die("Yetkisiz Erişim! Bu dosya doğrudan çağrılamaz.");
 }
