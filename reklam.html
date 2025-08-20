@@ -76,9 +76,15 @@
     </div>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
+       const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
         const messageBox = document.getElementById('messageBox');
+        
+        // CAPTCHA görselini yenileme fonksiyonu
+        function refreshCaptcha() {
+            const captchaImage = document.getElementById('captchaImage');
+            captchaImage.src = 'captcha.php?' + new Date().getTime();
+        }
 
         if (status) {
             if (status === 'success') {
